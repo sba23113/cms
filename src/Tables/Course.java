@@ -7,7 +7,7 @@ package Tables;
 
 /**
  * 
- * @author Lukas Homola <sba23113@student.cct.ie>>
+ * @author Lukas Homola <sba23113@student.cct.ie>
  */
 public class Course {
     private int courseID;
