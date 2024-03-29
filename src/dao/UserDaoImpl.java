@@ -18,7 +18,12 @@ public class UserDaoImpl implements UserDao {
     public UserDaoImpl(Connection conn) {
         this.conn = conn;
     }
-
+    
+    /**
+     * This method fetches user from database based on their username
+     * @param username
+     * @return 
+     */
     @Override
     public User getUser(String username) {
         User user = null; // Initialize User object to null so that null is returned if matching user is not found

@@ -4,6 +4,9 @@
  */
 package dataprocessing;
 
+import dao.UserDaoImpl;
+import tables.User;
+
 import databaseintegration.DBConnector;
 import java.sql.Connection;
 /**
@@ -21,8 +24,15 @@ public class CmsApplication {
         */
         
         try (Connection conn = DBConnector.connect()) {
+            UserDaoImpl userDao = new UserDaoImpl(conn);
+            User user = userDao.getUser("admin");
+            if (user != null) {
+                System.out.println("User found: " + user.getUsername());
+            } else {
+                System.out.println("User not found.");
+            }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
     }
     
