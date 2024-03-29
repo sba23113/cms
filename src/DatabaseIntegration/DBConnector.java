@@ -5,10 +5,20 @@
 
 package DatabaseIntegration;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 /**
  * 
- * @author Sammy Guergachi <sguergachi at gmail.com>
+ * @author Lukas Homola sba23113@student.cct.ie
  */
 public class DBConnector {
+    private static final String DATABASE_URL = "jdbc:mysql://localhost/cms";
+        private static final String DATABASE_USER = "pooa2024";
+        private static final String DATABASE_PASSWORD = "pooa2024";
 
+        public static Connection connect() throws SQLException {
+            return DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
+        }
 }
