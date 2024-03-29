@@ -19,6 +19,10 @@ public class DBConnector {
         private static final String DATABASE_PASSWORD = "pooa2024";
 
         public static Connection connect() throws SQLException {
-            return DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
+            try {
+                return DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
+            } catch (SQLException e) {
+                throw new RuntimeException("Could not connect to database", e);
+            }
         }
 }
