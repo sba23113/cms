@@ -15,7 +15,13 @@ public class User {
     private String passwordHash;
     private String userRole;
 
-    // Constructor
+    // Constructors
+    public User(String username, String passwordHash, String userRole) { // no userId
+        this.username = username;
+        this.passwordHash = passwordHash;
+        this.userRole = userRole;
+    }
+    
     public User(int userID, String username, String passwordHash, String userRole) {
         this.userID = userID;
         this.username = username;
