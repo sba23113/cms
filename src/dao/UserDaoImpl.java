@@ -24,7 +24,7 @@ public class UserDaoImpl implements UserDao {
         User user = null; // Initialize User object to null so that null is returned if matching user is not found
         String sql = "SELECT * FROM Users WHERE Username = ?"; //  SQL query to select all columns from the Users table where the Username column matches the requested value
         
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) { // PreparedStatement to prevent SQL injection attacks
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) { // PreparedStatement to prevent SQL injection attacks wrapped in try-with-resources to prevent resouce leaks
             pstmt.setString(1, username); // Replace the ? in the above SQL query with the provided username
             ResultSet rs = pstmt.executeQuery(); // Execute the SQL query -> store result in ResultSet object
 
