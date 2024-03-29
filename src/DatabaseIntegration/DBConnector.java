@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 /**
  * 
- * @author Lukas Homola sba23113@student.cct.ie
+ * @author Lukas Homola <sba23113@student.cct.ie>
  */
 public class DBConnector {
     private static final String DATABASE_URL = "jdbc:mysql://localhost/cms";
