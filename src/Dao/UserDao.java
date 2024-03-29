@@ -4,10 +4,11 @@
  */
 package Dao;
 
+import Tables.User;
 /**
  *
  * @author Lukas Homola <sba23113@student.cct.ie>
  */
 public interface UserDao {
-    
+    User getUser(String username);
 }
