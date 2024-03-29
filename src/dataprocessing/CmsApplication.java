@@ -16,6 +16,7 @@ public class CmsApplication {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        // to insert admin into the database, run 'insert-admin-into-database.sql'
         try {
             Connection conn = DBConnector.connect();
         } catch (Exception e) {
