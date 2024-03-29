@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-package DatabaseIntegration;
+package databaseintegration;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,7 +15,7 @@ import java.sql.SQLException;
  */
 public class DBConnector {
     private static final String DATABASE_URL = "jdbc:mysql://localhost/cms";
-        private static final String DATABASE_USER = "pooa2024";
+        private static final String DATABASE_USER = "admin";
         private static final String DATABASE_PASSWORD = "pooa2024";
 
         public static Connection connect() throws SQLException {
