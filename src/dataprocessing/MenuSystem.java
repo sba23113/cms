@@ -118,7 +118,7 @@ public class MenuSystem {
                     addUser();
                     break;
                 case 2:
-                    System.out.println("User Modified");
+                    modifyUser();
                     break;
                 case 3:
                     System.out.println("User Deleted");
@@ -163,5 +163,71 @@ public class MenuSystem {
                 System.out.println("Invalid role specified. Please enter a valid role (ADMIN, OFFICE or LECTURER).");
             }
         }
-    }   
+    }
+    
+    /**
+    * This method update user details (username, password, user role)
+     */
+    private void modifyUser() {
+        System.out.println("");
+        System.out.println("*** Update user details***");
+        System.out.print("Enter the username of the user to modify: ");
+        String username = scanner.nextLine();
+
+        User user = userDao.getUser(username); // Retrieve user information from cms database
+        if (user == null) { // If no user found exit out of the method
+            System.out.println("User not found.");
+            return;
+        }
+
+        boolean updating = true; // Flag to control the loop
+        while (updating) {
+            System.out.println("");
+            System.out.println("Select details to update:");
+            System.out.println("1) Change username");
+            System.out.println("2) Change password");
+            System.out.println("3) Change user role");
+            System.out.println("0) Go back");
+            System.out.print("Enter your choice: ");
+            int choice = getIntInput();
+
+            switch (choice) {
+                case 1: // Prompt user for a new username and update it
+                    System.out.println("");
+                    System.out.print("Enter new username: ");
+                    String newUsername = scanner.nextLine();
+                    user.setUsername(newUsername);
+                    break;
+                case 2: // Prompt user for a new password and update it
+                    System.out.println("");
+                    System.out.print("Enter new password: ");
+                    String newPassword = scanner.nextLine();
+                    user.setPasswordHash(newPassword);
+                    break;
+                case 3: // Prompt user for a new user role and update it
+                    System.out.println("");
+                    System.out.print("Enter new user role (ADMIN, OFFICE, LECTURER): ");
+                    String userRoleStr = scanner.nextLine().toUpperCase(); // Convert user input to upper case
+                    try {
+                        UserRole newRole = UserRole.valueOf(userRoleStr);
+                        user.setUserRole(newRole);
+                    } catch (IllegalArgumentException e) { // Exception in case of an invalid role provided by user
+                        System.out.println("Invalid role specified. Please enter a valid role (ADMIN, OFFICE or LECTURER).");
+                    }
+                    break;
+                case 0:
+                    updating = false; // Exit the loop
+                    break;
+                default:
+                    System.out.println("Invalid choice, please try again.");
+            }
+
+            // If a valid choice was made, update the tow in the database
+            if (choice > 0 && choice <= 3) {
+                userDao.updateUser(user); 
+                System.out.println("User information updated successfully.");
+            }
+        }
+    }
+
 }

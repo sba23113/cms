@@ -105,12 +105,14 @@ public class UserDaoImpl implements UserDao {
      * @return 
      */
     @Override // method is overriding a UserDao interface method
-    public boolean updateUser(User user) {
-        String sql = "UPDATE Users SET PasswordHash = ?, UserRole = ? WHERE Username = ?"; //  SQL query to update a row in Users table in cms database where username matches given value
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) { // PreparedStatement to prevent SQL injection attacks wrapped in try-with-resources to prevent resouce leaks
-            pstmt.setString(1, user.getPasswordHash()); // Replace the first ? in the above SQL query with the provided password
-            pstmt.setString(2, user.getUserRole().toString()); // Replace the second ? in the above SQL query with the provided user role
-            pstmt.setString(3, user.getUsername()); // Replace the third ? in the above SQL query with the provided username
+    public boolean updateUser(User user) {        
+        String sql = "UPDATE Users SET Username = ?, PasswordHash = ?, UserRole = ? WHERE UserID = ?"; //  SQL query to update a row from Users table in cms database where UserId matches given value
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, user.getUsername()); // Replace the first ? in the above SQL query with the provided username
+            pstmt.setString(2, user.getPasswordHash()); // Replace the second ? in the above SQL query with the provided password
+            pstmt.setString(3, user.getUserRole().toString()); // Replace the third ? in the above SQL query with the provided role
+            pstmt.setInt(4, user.getUserID()); // Replace the fourth ? in the above SQL query with the provided ID
             
             pstmt.executeUpdate();
             return true;
