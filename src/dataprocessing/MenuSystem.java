@@ -106,8 +106,8 @@ public class MenuSystem {
             System.out.println("Course Management System - Administrator Menu");
             System.out.println("****************************************************************************");
             System.out.println("1) Add User");
-            System.out.println("1) Modify User");
-            System.out.println("1) Delete User");
+            System.out.println("2) Modify User");
+            System.out.println("3) Delete User");
             System.out.println("0) Logout");
             System.out.println("");
             System.out.print("Enter your choice: ");
@@ -139,6 +139,8 @@ public class MenuSystem {
     private void addUser() {
         boolean checkingUser = true; // Flag to control the loop
         while (checkingUser) { // Loop until user input is valid and user is successfully added
+            System.out.println("");
+            System.out.println("*** Enter new user's details ***");
             System.out.print("Enter new username: ");
             String username = scanner.nextLine();
             System.out.print("Enter password: ");
@@ -150,14 +152,16 @@ public class MenuSystem {
                 UserRole userRole = UserRole.valueOf(userRoleStr); // Convert string to corresponding UserRole enum value
                 User newUser = new User(username, password, userRole); // Create user with specified role
                 if(userDao.insertUser(newUser)) { // Try to insert the new user into the database
+                    System.out.println("");
                     System.out.println("User successfully added.");
                     checkingUser = false; // Exit loop after successful addition
                 } else {
+                    System.out.println("");
                     System.out.println("Failed to add user."); // Inform the user about failure to add user
                 }
             } catch (IllegalArgumentException e) { // Exception in case of an invalid role provided by user
                 System.out.println("Invalid role specified. Please enter a valid role (ADMIN, OFFICE or LECTURER).");
             }
         }
-    }
+    }   
 }
