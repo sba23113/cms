@@ -4,18 +4,16 @@
  */
 package dataprocessing;
 
-import dao.CourseDaoImpl;
 import tables.Module;
 import dao.ModuleDaoImpl;
+import dao.StudentDaoImpl;
 import dao.UserDaoImpl;
-import tables.User;
-import tables.UserRole;
 
 import databaseintegration.DBConnector;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Scanner;
-import tables.Course;
+import tables.Student;
 
 /**
  *
@@ -34,19 +32,28 @@ public class CmsApplication {
        Scanner scanner = new Scanner(System.in);
        
        try (Connection conn = DBConnector.connect()) {
-           ModuleDaoImpl moduleDao = new ModuleDaoImpl(conn);
+            ModuleDaoImpl moduleDao = new ModuleDaoImpl(conn);
             UserDaoImpl userDao = new UserDaoImpl(conn);            
-            
+            StudentDaoImpl studentDao = new StudentDaoImpl(conn);
+
             List<Module> modules = moduleDao.getAllModules();
             for (Module module : modules) {
                 System.out.println(module.getModuleID() + ": " + module.getModuleName());
             }
             
+           int studentId = 2;
+           Student student = studentDao.getStudentById(studentId);
+           if (student != null) {
+               System.out.println(student.getFirstName() + " " + student.getLastName());
+           } else {
+               System.out.println("not found");
+           }
+
             MenuSystem menuSystem = new MenuSystem(scanner, userDao);
             menuSystem.displayMainMenu();
             /*
             List<User> users = userDao.getAllUsers();
-            
+
             if (users.isEmpty()) {
                 System.out.println("There are no users to show.");
             } else {
