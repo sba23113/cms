@@ -25,14 +25,16 @@ public class CmsApplication {
         
         try (Connection conn = DBConnector.connect()) {
             UserDaoImpl userDao = new UserDaoImpl(conn);
-            User user = userDao.getUser("admin");
-            if (user != null) {
-                System.out.println("User found: " + user.getUsername());
+            
+            User newUser = new User("a", "sdfsdgf546t45yh", "office");
+            
+            if (userDao.insertUser(newUser)) {
+                System.out.println("New user was successfully inserted.");
             } else {
-                System.out.println("User not found.");
+                System.out.println("Failed to insert new user.");
             }
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
     

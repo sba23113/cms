@@ -45,4 +45,23 @@ public class UserDaoImpl implements UserDao {
         
         return user; //  Return User object
     }
+        
+    /**
+     * This method inserts user into User table in cms database
+     * @param user 
+     */
+    @Override // method is overriding a UserDao interface insertUser(User user) method
+    public Boolean insertUser(User user) {
+        String sql = "INSERT INTO Users (Username, PasswordHash, UserRole) VALUES (?, ?, ?)"; //  SQL query to insert new row into Users table in cms database
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) { // PreparedStatement to prevent SQL injection attacks wrapped in try-with-resources to prevent resouce leaks
+            pstmt.setString(1, user.getUsername()); // Replace the first ? in the above SQL query with the provided username
+            pstmt.setString(2, user.getPasswordHash()); // Replace the second ? in the above SQL query with the provided password
+            pstmt.setString(3, user.getUserRole()); // Replace the third ? in the above SQL query with the provided role
+            
+            pstmt.executeUpdate(); // Execute the SQL query
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
 }

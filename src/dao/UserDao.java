@@ -11,4 +11,5 @@ import tables.User;
  */
 public interface UserDao {
     User getUser(String username);
+    Boolean insertUser(User user);
 }
