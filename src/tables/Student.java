@@ -5,6 +5,8 @@
 
 package tables;
 
+import java.util.Date;
+
 /**
  * 
  * @author Lukas Homola <sba23113@student.cct.ie>
@@ -18,11 +20,10 @@ public class Student {
     private String phoneNumber;
     private int courseID;
     private boolean isActive;
-    private int birthYear;
-    private int birthMonth;
-    private int birthDay;
+    private Date dateOfBirth;
+    private int userID;
 
-    public Student(int studentID, String firstName, String lastName, String gender, String email, String phoneNumber, int courseID, boolean isActive, int birthYear, int birthMonth, int birthDay) {
+    public Student(int studentID, String firstName, String lastName, String gender, String email, String phoneNumber, int courseID, boolean isActive, Date dateOfBirth, int userID) {
         this.studentID = studentID;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -31,9 +32,8 @@ public class Student {
         this.phoneNumber = phoneNumber;
         this.courseID = courseID;
         this.isActive = isActive;
-        this.birthYear = birthYear;
-        this.birthMonth = birthMonth;
-        this.birthDay = birthDay;
+        this.dateOfBirth = dateOfBirth;
+        this.userID = userID;
     }
 
     public int getStudentID() {
@@ -68,16 +68,12 @@ public class Student {
         return isActive;
     }
 
-    public int getBirthYear() {
-        return birthYear;
+    public Date getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public int getBirthMonth() {
-        return birthMonth;
-    }
-
-    public int getBirthDay() {
-        return birthDay;
+    public int getUserID() {
+        return userID;
     }
 
     public void setStudentID(int studentID) {
@@ -112,15 +108,13 @@ public class Student {
         this.isActive = isActive;
     }
 
-    public void setBirthYear(int birthYear) {
-        this.birthYear = birthYear;
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
-    public void setBirthMonth(int birthMonth) {
-        this.birthMonth = birthMonth;
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
-    public void setBirthDay(int birthDay) {
-        this.birthDay = birthDay;
-    }    
+    
 }
