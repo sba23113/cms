@@ -13,16 +13,16 @@ public class User {
     private int userID;
     private String username;
     private String passwordHash;
-    private String userRole;
+    private UserRole userRole;
 
     // Constructors
-    public User(String username, String passwordHash, String userRole) { // no userId
+    public User(String username, String passwordHash, UserRole userRole) { // no userId
         this.username = username;
         this.passwordHash = passwordHash;
         this.userRole = userRole;
     }
     
-    public User(int userID, String username, String passwordHash, String userRole) {
+    public User(int userID, String username, String passwordHash, UserRole userRole) {
         this.userID = userID;
         this.username = username;
         this.passwordHash = passwordHash;
@@ -54,11 +54,11 @@ public class User {
         this.passwordHash = passwordHash;
     }
 
-    public String getUserRole() {
+    public UserRole getUserRole() {
         return userRole;
     }
 
-    public void setUserRole(String userRole) {
+    public void setUserRole(UserRole userRole) {
         this.userRole = userRole;
     }
 }
