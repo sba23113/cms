@@ -54,7 +54,7 @@ public class UserDaoImpl implements UserDao {
      * @param user 
      */
     @Override // method is overriding a UserDao interface insertUser(User user) method
-    public Boolean insertUser(User user) {
+    public boolean insertUser(User user) {
         String sql = "INSERT INTO Users (Username, PasswordHash, UserRole) VALUES (?, ?, ?)"; //  SQL query to insert new row into Users table in cms database
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) { // PreparedStatement to prevent SQL injection attacks wrapped in try-with-resources to prevent resouce leaks
             pstmt.setString(1, user.getUsername()); // Replace the first ? in the above SQL query with the provided username
@@ -64,6 +64,27 @@ public class UserDaoImpl implements UserDao {
             pstmt.executeUpdate(); // Execute the SQL query
             return true;
         } catch (SQLException e) {
+            return false;
+        }
+    }
+    
+    /**
+     * This method updates row in User table in cms database where username matches given value
+     * @param user
+     * @return 
+     */
+    @Override
+    public boolean updateUser(User user) {
+        String sql = "UPDATE Users SET PasswordHash = ?, UserRole = ? WHERE Username = ?"; //  SQL query to insert new row into Users table in cms database
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) { // PreparedStatement to prevent SQL injection attacks wrapped in try-with-resources to prevent resouce leaks
+            pstmt.setString(1, user.getPasswordHash()); // Replace the first ? in the above SQL query with the provided password
+            pstmt.setString(2, user.getUserRole().toString()); // Replace the second ? in the above SQL query with the provided user role
+            pstmt.setString(3, user.getUsername()); // Replace the third ? in the above SQL query with the provided username
+            
+            pstmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
             return false;
         }
     }

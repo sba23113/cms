@@ -27,12 +27,20 @@ public class CmsApplication {
         try (Connection conn = DBConnector.connect()) {
             UserDaoImpl userDao = new UserDaoImpl(conn);
             
-            User newUser = new User("b", "54wet1g61jk61./'p/61.", UserRole.OFFICE);
+            User existingUser = userDao.getUser("a");
             
-            if (userDao.insertUser(newUser)) {
-                System.out.println("New user was successfully inserted.");
+            if (existingUser != null) {
+                existingUser.setPasswordHash("newPasswordHash");
+                existingUser.setUserRole(UserRole.LECTURER);
+                
+                boolean isUpdated = userDao.updateUser(existingUser);
+                if (isUpdated) {
+                    System.out.println("Successfully updated.");
+                } else {
+                    System.out.println("Update failed.");
+                }
             } else {
-                System.out.println("Failed to insert new user.");
+                System.out.println("User not found");
             }
         } catch (Exception e) {
             e.printStackTrace();
