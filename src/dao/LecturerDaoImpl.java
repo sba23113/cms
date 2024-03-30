@@ -50,12 +50,38 @@ public class LecturerDaoImpl implements LecturerDao {
         } catch (SQLException e) {
             System.out.println(e);
         }
+        
         return lecturer; // Return Lecturer object
     }
 
-    @Override
+    /**
+     * Method returns a list of all lecturers in cms database
+     * @return 
+     */
+    @Override // method is overriding a StudentDao interface method
     public List<Lecturer> getAllLecturers() {
-        List<Lecturer> lecturers = new ArrayList<>();
+        List<Lecturer> lecturers = new ArrayList<>(); // Initialize empty ArrayList for Lecturer objects        
+        String sql = "SELECT * FROM Lecturers"; // SQL query to select all lecturers
+
+        try (Statement stmt = conn.createStatement(); // Create a statement object
+             ResultSet rs = stmt.executeQuery(sql)) { // Execute the SQL query -> store result in ResultSet object
+
+            while (rs.next()) { // Iterate over each row in the result set
+                Lecturer lecturer = new Lecturer( // Create a new Lecturer object
+                    rs.getInt("LecturerID"),
+                    rs.getString("FirstName"),
+                    rs.getString("LastName"),
+                    rs.getString("Email"),
+                    rs.getString("PhoneNumber"),
+                    rs.getInt("UserID"),
+                    rs.getString("LecturerRole")
+                );
+                lecturers.add(lecturer); // Add the object to the lecturers ArrayList
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
         return lecturers;
     }
 }

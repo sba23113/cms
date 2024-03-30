@@ -57,7 +57,7 @@ public class StudentDaoImpl implements StudentDao {
     }
     
     /**
-     * * Method returns a list of all student in cms database
+      * Method returns a list of all student in cms database
      * @return 
      */
     @Override
