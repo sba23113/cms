@@ -6,6 +6,7 @@ package dataprocessing;
 
 import dao.UserDaoImpl;
 import tables.User;
+import tables.UserRole;
 
 import databaseintegration.DBConnector;
 import java.sql.Connection;
@@ -26,7 +27,7 @@ public class CmsApplication {
         try (Connection conn = DBConnector.connect()) {
             UserDaoImpl userDao = new UserDaoImpl(conn);
             
-            User newUser = new User("a", "sdfsdgf546t45yh", "office");
+            User newUser = new User("b", "54wet1g61jk61./'p/61.", UserRole.OFFICE);
             
             if (userDao.insertUser(newUser)) {
                 System.out.println("New user was successfully inserted.");

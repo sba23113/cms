@@ -6,6 +6,8 @@
 package dao;
 
 import tables.User;
+import tables.UserRole;
+
 import java.sql.*;
 
 /**
@@ -35,8 +37,9 @@ public class UserDaoImpl implements UserDao {
 
             if (rs.next()) { // Check if the query returned at least 1 result
                 int userID = rs.getInt("UserID");
-                String userRole = rs.getString("UserRole");
                 String passwordHash = rs.getString("PasswordHash");
+                String userRoleStr = rs.getString("UserRole");
+                UserRole userRole = UserRole.valueOf(userRoleStr.toUpperCase());
                 user = new User(userID, username, passwordHash, userRole); // create new User object
             }
         } catch (SQLException e) {
@@ -56,7 +59,7 @@ public class UserDaoImpl implements UserDao {
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) { // PreparedStatement to prevent SQL injection attacks wrapped in try-with-resources to prevent resouce leaks
             pstmt.setString(1, user.getUsername()); // Replace the first ? in the above SQL query with the provided username
             pstmt.setString(2, user.getPasswordHash()); // Replace the second ? in the above SQL query with the provided password
-            pstmt.setString(3, user.getUserRole()); // Replace the third ? in the above SQL query with the provided role
+            pstmt.setString(3, user.getUserRole().toString()); // Replace the third ? in the above SQL query with the provided role
             
             pstmt.executeUpdate(); // Execute the SQL query
             return true;
