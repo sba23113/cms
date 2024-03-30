@@ -47,10 +47,28 @@ public class CourseDaoImpl implements CourseDao {
         return course; //  Return Course object
     }
 
+    /**
+     * Method retrieves all courses from cms database
+     * @return 
+     */
     @Override
     public List<Course> getAllCourses() {
-        List<Course> courses = new ArrayList<>();
+        List<Course> courses = new ArrayList<>(); // Initialize course ArrayList
+        String sql = "SELECT * FROM Courses"; // SQL query to select all courses
 
-        return courses;
+        try (Statement stmt = conn.createStatement(); // Create a statement object
+             ResultSet rs = stmt.executeQuery(sql)) { // Execute the SQL query -> store result in ResultSet object
+                        
+            while (rs.next()) { // Iterate over each row in the result set
+                int courseId = rs.getInt("CourseID");
+                String courseName = rs.getString("CourseName");
+                Course course = new Course(courseId, courseName); // Create a new course object
+                courses.add(course); // Add the object to the courses ArrayList
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // If an exception is caught print the error message to the console
+        }
+
+        return courses; // Return list of courses
     }
 }

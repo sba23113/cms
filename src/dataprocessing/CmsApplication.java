@@ -11,6 +11,7 @@ import tables.UserRole;
 
 import databaseintegration.DBConnector;
 import java.sql.Connection;
+import java.util.List;
 import java.util.Scanner;
 import tables.Course;
 
@@ -34,12 +35,9 @@ public class CmsApplication {
            CourseDaoImpl courseDao = new CourseDaoImpl(conn);
             UserDaoImpl userDao = new UserDaoImpl(conn);            
             
-            int courseId = 1;
-            Course course = courseDao.getCourseById(courseId);
-            if (course != null) {
+            List<Course> courses = courseDao.getAllCourses();
+            for (Course course : courses) {
                 System.out.println(course.getCourseID() + " " + course.getCourseName());
-            } else {
-                System.out.println("not found");
             }
             
             MenuSystem menuSystem = new MenuSystem(scanner, userDao);

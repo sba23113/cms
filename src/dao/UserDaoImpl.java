@@ -60,8 +60,8 @@ public class UserDaoImpl implements UserDao {
         List<User> users = new ArrayList<>(); // initialize users ArrayList
         String sql = "SELECT * FROM Users"; // SQL query to return all columns form cms database for all rows
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql); // PreparedStatement to prevent SQL injection attacks wrapped in try-with-resources to prevent resouce leaks
-             ResultSet rs = pstmt.executeQuery()) { // Execute the SQL query -> store result in ResultSet object
+        try (Statement stmt = conn.createStatement(); // Create a statement object
+         ResultSet rs = stmt.executeQuery(sql)) { // Execute the SQL query -> store result in ResultSet object
 
             while (rs.next()) { // while there is another row to read retrieve user data
                 int userID = rs.getInt("UserID");
