@@ -5,6 +5,8 @@
 
 package tables;
 
+import java.util.Date;
+
 /**
  * 
  * @author Lukas Homola <sba23113@student.cct.ie>
@@ -19,9 +21,10 @@ public class Lecturer {
         private String lecturerRole;
         private int birthYear;
         private int birthMonth;
-        private int birthDay;
+        private Date dateOfBirth;
 
-    public Lecturer(int lecturerID, String firstName, String lastName, String email, String phoneNumber, int userID, String lecturerRole, int birthYear, int birthMonth, int birthDay) {
+        // constructor
+    public Lecturer(int lecturerID, String firstName, String lastName, String email, String phoneNumber, int userID, String lecturerRole, int birthYear, int birthMonth, Date dateOfBirth) {
         this.lecturerID = lecturerID;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -31,9 +34,10 @@ public class Lecturer {
         this.lecturerRole = lecturerRole;
         this.birthYear = birthYear;
         this.birthMonth = birthMonth;
-        this.birthDay = birthDay;
+        this.dateOfBirth = dateOfBirth;
     }
 
+    // getters and setters
     public int getLecturerID() {
         return lecturerID;
     }
@@ -70,8 +74,8 @@ public class Lecturer {
         return birthMonth;
     }
 
-    public int getBirthDay() {
-        return birthDay;
+    public Date getDateOfBirth() {
+        return dateOfBirth;
     }
 
     public void setLecturerID(int lecturerID) {
@@ -110,9 +114,7 @@ public class Lecturer {
         this.birthMonth = birthMonth;
     }
 
-    public void setBirthDay(int birthDay) {
-        this.birthDay = birthDay;
-    }
-        
-        
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }            
 }
