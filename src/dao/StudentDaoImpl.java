@@ -56,6 +56,10 @@ public class StudentDaoImpl implements StudentDao {
         return student; //  Return Student object
     }
     
+    /**
+     * * Method returns a list of all student in cms database
+     * @return 
+     */
     @Override
     public List<Student> getAllStudents() {
         List<Student> students = new ArrayList<>(); // Initialize empty ArrayList for Student objects        
