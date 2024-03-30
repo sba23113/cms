@@ -121,7 +121,7 @@ public class MenuSystem {
                     modifyUser();
                     break;
                 case 3:
-                    System.out.println("User Deleted");
+                    deleteUser();
                     break;
                 case 0:
                     System.out.println("Logging out...");
@@ -227,6 +227,21 @@ public class MenuSystem {
                 userDao.updateUser(user); 
                 System.out.println("User information updated successfully.");
             }
+        }
+    }
+    
+    private void deleteUser() {
+        System.out.println("");
+        System.out.println("*** Delete user ***");
+        System.out.print("Enter username of the user to be deleted: ");
+        String username = scanner.nextLine();
+
+        if (userDao.deleteUser(username)) {
+            System.out.println("");
+            System.out.println("User deleted.");
+        } else {
+            System.out.println("");
+            System.out.println("Failed to delete user.");
         }
     }
 
