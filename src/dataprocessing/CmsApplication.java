@@ -10,6 +10,7 @@ import tables.UserRole;
 
 import databaseintegration.DBConnector;
 import java.sql.Connection;
+import java.util.List;
 /**
  *
  * @author Lukas Homola <sba23113@student.cct.ie>
@@ -24,27 +25,27 @@ public class CmsApplication {
         to insert admin into the database, run 'insert-admin-into-database.sql'
         */
         
-        try (Connection conn = DBConnector.connect()) {
+       try (Connection conn = DBConnector.connect()) {
             UserDaoImpl userDao = new UserDaoImpl(conn);
             
-            User existingUser = userDao.getUser("a");
+            List<User> users = userDao.getAllUsers();
             
-            if (existingUser != null) {
-                existingUser.setPasswordHash("newPasswordHash");
-                existingUser.setUserRole(UserRole.LECTURER);
-                
-                boolean isUpdated = userDao.updateUser(existingUser);
-                if (isUpdated) {
-                    System.out.println("Successfully updated.");
-                } else {
-                    System.out.println("Update failed.");
-                }
+            if (users.isEmpty()) {
+                System.out.println("There are no users to show.");
             } else {
-                System.out.println("User not found");
+                System.out.printf("%-10s %-20s %-30s %s\n", "UserID", "Username", "Password Hash", "Role");
+                System.out.println("------------------------------------------------------------------------------");
+
+                for (User user : users) {
+                    System.out.printf("%-10d %-20s %-30s %s\n",
+                        user.getUserID(),
+                        user.getUsername(),
+                        user.getPasswordHash(),
+                        user.getUserRole());
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-    
+    }    
 }

@@ -9,6 +9,8 @@ import tables.User;
 import tables.UserRole;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -26,7 +28,7 @@ public class UserDaoImpl implements UserDao {
      * @param username
      * @return 
      */
-    @Override
+    @Override // method is overriding a UserDao interface method
     public User getUser(String username) {
         User user = null; // Initialize User object to null so that null is returned if matching user is not found
         String sql = "SELECT * FROM Users WHERE Username = ?"; //  SQL query to select all columns from the Users table where the Username column matches the requested value
@@ -48,14 +50,43 @@ public class UserDaoImpl implements UserDao {
         
         return user; //  Return User object
     }
+    
+    /**
+     * This method will query the cms database for all users
+     * @return 
+     */
+    @Override // method is overriding a UserDao interface method
+    public List<User> getAllUsers() { // return list of users
+        List<User> users = new ArrayList<>(); // initialize users ArrayList
+        String sql = "SELECT * FROM Users"; // SQL query to return all columns form cms database for all rows
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql); // PreparedStatement to prevent SQL injection attacks wrapped in try-with-resources to prevent resouce leaks
+             ResultSet rs = pstmt.executeQuery()) { // Execute the SQL query -> store result in ResultSet object
+
+            while (rs.next()) { // while there is another row to read retrieve user data
+                int userID = rs.getInt("UserID");
+                String username = rs.getString("Username");
+                String passwordHash = rs.getString("PasswordHash");
+                String roleStr = rs.getString("UserRole");
+                UserRole userRole = UserRole.valueOf(roleStr.toUpperCase()); // Convert the role string to an enum
+
+                User user = new User(userID, username, passwordHash, userRole); // create new User object with the details obtained from the database
+                users.add(user); // add user object to users ArrayList
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return users; // return list of users
+    }
         
     /**
      * This method inserts user into User table in cms database
      * @param user 
      */
-    @Override // method is overriding a UserDao interface insertUser(User user) method
+    @Override // method is overriding a UserDao interface method
     public boolean insertUser(User user) {
-        String sql = "INSERT INTO Users (Username, PasswordHash, UserRole) VALUES (?, ?, ?)"; //  SQL query to insert new row into Users table in cms database
+        String sql = "INSERT INTO Users (Username, PasswordHash, UserRole) VALUES (?, ?, ?)"; // SQL query to insert new row into Users table in cms database
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) { // PreparedStatement to prevent SQL injection attacks wrapped in try-with-resources to prevent resouce leaks
             pstmt.setString(1, user.getUsername()); // Replace the first ? in the above SQL query with the provided username
             pstmt.setString(2, user.getPasswordHash()); // Replace the second ? in the above SQL query with the provided password
@@ -73,13 +104,32 @@ public class UserDaoImpl implements UserDao {
      * @param user
      * @return 
      */
-    @Override
+    @Override // method is overriding a UserDao interface method
     public boolean updateUser(User user) {
-        String sql = "UPDATE Users SET PasswordHash = ?, UserRole = ? WHERE Username = ?"; //  SQL query to insert new row into Users table in cms database
+        String sql = "UPDATE Users SET PasswordHash = ?, UserRole = ? WHERE Username = ?"; //  SQL query to update a row in Users table in cms database where username matches given value
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) { // PreparedStatement to prevent SQL injection attacks wrapped in try-with-resources to prevent resouce leaks
             pstmt.setString(1, user.getPasswordHash()); // Replace the first ? in the above SQL query with the provided password
             pstmt.setString(2, user.getUserRole().toString()); // Replace the second ? in the above SQL query with the provided user role
             pstmt.setString(3, user.getUsername()); // Replace the third ? in the above SQL query with the provided username
+            
+            pstmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+    
+    /**
+     * This method deletes row in User table in cms database where username matches given value
+     * @param username
+     * @return 
+     */
+    @Override // method is overriding a UserDao interface method
+    public boolean deleteUser(String username) {
+        String sql = "DELETE FROM Users WHERE Username = ?"; //  SQL query to delete a row from Users table in cms database where username matches given value
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) { // PreparedStatement to prevent SQL injection attacks wrapped in try-with-resources to prevent resouce leaks
+            pstmt.setString(1, username); // Replace the first ? in the above SQL query with the provided username
             
             pstmt.executeUpdate();
             return true;
