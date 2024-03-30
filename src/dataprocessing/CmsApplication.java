@@ -4,6 +4,7 @@
  */
 package dataprocessing;
 
+import dao.CourseDaoImpl;
 import dao.UserDaoImpl;
 import tables.User;
 import tables.UserRole;
@@ -11,6 +12,7 @@ import tables.UserRole;
 import databaseintegration.DBConnector;
 import java.sql.Connection;
 import java.util.Scanner;
+import tables.Course;
 
 /**
  *
@@ -27,9 +29,18 @@ public class CmsApplication {
         */
         
        Scanner scanner = new Scanner(System.in);
-                
+       
        try (Connection conn = DBConnector.connect()) {
+           CourseDaoImpl courseDao = new CourseDaoImpl(conn);
             UserDaoImpl userDao = new UserDaoImpl(conn);            
+            
+            int courseId = 1;
+            Course course = courseDao.getCourseById(courseId);
+            if (course != null) {
+                System.out.println(course.getCourseID() + " " + course.getCourseName());
+            } else {
+                System.out.println("not found");
+            }
             
             MenuSystem menuSystem = new MenuSystem(scanner, userDao);
             menuSystem.displayMainMenu();
