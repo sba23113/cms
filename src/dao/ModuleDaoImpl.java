@@ -66,7 +66,7 @@ private Connection conn;
                 modules.add(module); // Add the object to the modules ArrayList
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // If an exception is caught print the error message to the console
+            System.out.println(e);
         }
 
         return modules; // Return list of modules

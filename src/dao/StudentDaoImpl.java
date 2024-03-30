@@ -58,7 +58,30 @@ public class StudentDaoImpl implements StudentDao {
     
     @Override
     public List<Student> getAllStudents() {
-        List<Student> students = new ArrayList<>();
-        return students;
+        List<Student> students = new ArrayList<>(); // Initialize empty ArrayList for Student objects        
+        String sql = "SELECT * FROM Students"; // SQL query to select all students.
+
+        try (Statement stmt = conn.createStatement();  // Create a statement object
+             ResultSet rs = stmt.executeQuery(sql)) { // Execute the SQL query -> store result in ResultSet object
+            
+            while (rs.next()) { // Iterate over each row in the result set
+                Student student = new Student( // Create a new Student object
+                    rs.getInt("StudentID"),
+                    rs.getString("FirstName"),
+                    rs.getString("LastName"),
+                    rs.getString("Gender"),
+                    rs.getString("Email"),
+                    rs.getString("PhoneNumber"),
+                    rs.getInt("CourseID"),
+                    rs.getBoolean("IsActive"),
+                    rs.getDate("DateOfBirth"),
+                    rs.getInt("UserID")
+                );
+                students.add(student); // Add the object to the students ArrayList
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return students; // return list of students
     }
 }

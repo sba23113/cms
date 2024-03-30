@@ -66,7 +66,7 @@ public class CourseDaoImpl implements CourseDao {
                 courses.add(course); // Add the object to the courses ArrayList
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // If an exception is caught print the error message to the console
+            System.out.println(e);
         }
 
         return courses; // Return list of courses

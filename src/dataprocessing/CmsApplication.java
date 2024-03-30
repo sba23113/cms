@@ -36,19 +36,11 @@ public class CmsApplication {
             UserDaoImpl userDao = new UserDaoImpl(conn);            
             StudentDaoImpl studentDao = new StudentDaoImpl(conn);
 
-            List<Module> modules = moduleDao.getAllModules();
-            for (Module module : modules) {
-                System.out.println(module.getModuleID() + ": " + module.getModuleName());
+            List<Student> students = studentDao.getAllStudents();
+            for (Student student : students) {
+                System.out.println(student.getStudentID() + ": " + student.getFirstName() + " " + student.getLastName());
             }
             
-           int studentId = 2;
-           Student student = studentDao.getStudentById(studentId);
-           if (student != null) {
-               System.out.println(student.getFirstName() + " " + student.getLastName());
-           } else {
-               System.out.println("not found");
-           }
-
             MenuSystem menuSystem = new MenuSystem(scanner, userDao);
             menuSystem.displayMainMenu();
             /*
