@@ -5,8 +5,11 @@
 
 package dataprocessing;
 
+import dao.UserDao;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import tables.User;
+import tables.UserRole;
 
 /**
  * 
@@ -14,16 +17,18 @@ import java.util.Scanner;
  */
 public class MenuSystem {
     private Scanner scanner;
+    private UserDao userDao;
 
-    public MenuSystem(Scanner scanner) {
+    public MenuSystem(Scanner scanner, UserDao userDao) {
         this.scanner = scanner;
+        this.userDao = userDao;
     }
     
     /**
      * Display Main Menu
      */
     public void displayMainMenu() {
-        boolean running = true;
+        boolean running = true; // Flag to control the loop
         while (running) {
             // CMS main menu
             System.out.println("");
@@ -56,7 +61,7 @@ public class MenuSystem {
      */
     private int getIntInput() {
         int input = 0;
-        boolean running = true; // while loop flag
+        boolean running = true; // Flag to control the loop
         while (running) {
             try {
                 input = scanner.nextInt(); // store user's choice in interger variable                
@@ -93,7 +98,7 @@ public class MenuSystem {
      * Display menu based on user's role
      */
     private void showRoleBasedMenu() {
-        boolean loggedIn = true;
+        boolean loggedIn = true; // Flag to control the loop
         while (loggedIn) {
             // CMS admin menu
             System.out.println("");
@@ -110,7 +115,7 @@ public class MenuSystem {
             
             switch (choice) {
                 case 1:
-                    System.out.println("User Added");
+                    addUser();
                     break;
                 case 2:
                     System.out.println("User Modified");
@@ -124,6 +129,34 @@ public class MenuSystem {
                     break;
                 default:
                     System.out.println("!!!Invalid choice!!!");
+            }
+        }
+    }
+    
+    /**
+     * Insert new user into database
+     */
+    private void addUser() {
+        boolean checkingUser = true; // Flag to control the loop
+        while (checkingUser) { // Loop until user input is valid and user is successfully added
+            System.out.print("Enter new username: ");
+            String username = scanner.nextLine();
+            System.out.print("Enter password: ");
+            String password = scanner.nextLine();
+            System.out.print("Enter user's role (ADMIN, OFFICE, LECTURER): ");
+            String userRoleStr = scanner.nextLine().toUpperCase(); // Convert input to uppercase for matching
+
+            try {
+                UserRole userRole = UserRole.valueOf(userRoleStr); // Convert string to corresponding UserRole enum value
+                User newUser = new User(username, password, userRole); // Create user with specified role
+                if(userDao.insertUser(newUser)) { // Try to insert the new user into the database
+                    System.out.println("User successfully added.");
+                    checkingUser = false; // Exit loop after successful addition
+                } else {
+                    System.out.println("Failed to add user."); // Inform the user about failure to add user
+                }
+            } catch (IllegalArgumentException e) { // Exception in case of an invalid role provided by user
+                System.out.println("Invalid role specified. Please enter a valid role (ADMIN, OFFICE or LECTURER).");
             }
         }
     }

@@ -31,7 +31,7 @@ public class CmsApplication {
        try (Connection conn = DBConnector.connect()) {
             UserDaoImpl userDao = new UserDaoImpl(conn);            
             
-            MenuSystem menuSystem = new MenuSystem(scanner);
+            MenuSystem menuSystem = new MenuSystem(scanner, userDao);
             menuSystem.displayMainMenu();
             /*
             List<User> users = userDao.getAllUsers();
