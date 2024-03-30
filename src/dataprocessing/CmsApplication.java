@@ -5,6 +5,8 @@
 package dataprocessing;
 
 import dao.CourseDaoImpl;
+import tables.Module;
+import dao.ModuleDaoImpl;
 import dao.UserDaoImpl;
 import tables.User;
 import tables.UserRole;
@@ -32,12 +34,12 @@ public class CmsApplication {
        Scanner scanner = new Scanner(System.in);
        
        try (Connection conn = DBConnector.connect()) {
-           CourseDaoImpl courseDao = new CourseDaoImpl(conn);
+           ModuleDaoImpl moduleDao = new ModuleDaoImpl(conn);
             UserDaoImpl userDao = new UserDaoImpl(conn);            
             
-            List<Course> courses = courseDao.getAllCourses();
-            for (Course course : courses) {
-                System.out.println(course.getCourseID() + " " + course.getCourseName());
+            List<Module> modules = moduleDao.getAllModules();
+            for (Module module : modules) {
+                System.out.println(module.getModuleID() + ": " + module.getModuleName());
             }
             
             MenuSystem menuSystem = new MenuSystem(scanner, userDao);
