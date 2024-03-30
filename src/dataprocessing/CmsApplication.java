@@ -10,7 +10,8 @@ import tables.UserRole;
 
 import databaseintegration.DBConnector;
 import java.sql.Connection;
-import java.util.List;
+import java.util.Scanner;
+
 /**
  *
  * @author Lukas Homola <sba23113@student.cct.ie>
@@ -25,9 +26,14 @@ public class CmsApplication {
         to insert admin into the database, run 'insert-admin-into-database.sql'
         */
         
+       Scanner scanner = new Scanner(System.in);
+                
        try (Connection conn = DBConnector.connect()) {
-            UserDaoImpl userDao = new UserDaoImpl(conn);
+            UserDaoImpl userDao = new UserDaoImpl(conn);            
             
+            MenuSystem menuSystem = new MenuSystem(scanner);
+            menuSystem.displayMainMenu();
+            /*
             List<User> users = userDao.getAllUsers();
             
             if (users.isEmpty()) {
@@ -43,7 +49,7 @@ public class CmsApplication {
                         user.getPasswordHash(),
                         user.getUserRole());
                 }
-            }
+            }*/
         } catch (Exception e) {
             e.printStackTrace();
         }
