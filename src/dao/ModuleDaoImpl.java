@@ -32,7 +32,7 @@ private Connection conn;
     */
     @Override
     public Module getModuleById(int moduleId) {
-        String sql = "SELECT * FROM Modules WHERE ModuleID = ?"; // SQL query to select a module by its  ID
+        String sql = "SELECT * FROM Modules WHERE ModuleID = ?"; // SQL query to select a module by its ID
         Module module = null; // Initialize module object to null (if module cannot be found, method will return null)
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) { // PreparedStatement to prevent SQL injection attacks wrapped in try-with-resources to prevent resouce leaks

@@ -9,7 +9,7 @@ package tables;
  * 
  * @author Lukas Homola <sba23113@student.cct.ie>
  */
-public class Teacher {
+public class Lecturer {
     private int lecturerID;
         private String firstName;
         private String lastName;
@@ -21,7 +21,7 @@ public class Teacher {
         private int birthMonth;
         private int birthDay;
 
-    public Teacher(int lecturerID, String firstName, String lastName, String email, String phoneNumber, int userID, String lecturerRole, int birthYear, int birthMonth, int birthDay) {
+    public Lecturer(int lecturerID, String firstName, String lastName, String email, String phoneNumber, int userID, String lecturerRole, int birthYear, int birthMonth, int birthDay) {
         this.lecturerID = lecturerID;
         this.firstName = firstName;
         this.lastName = lastName;
