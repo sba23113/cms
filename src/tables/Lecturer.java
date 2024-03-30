@@ -13,18 +13,14 @@ import java.util.Date;
  */
 public class Lecturer {
     private int lecturerID;
-        private String firstName;
-        private String lastName;
-        private String email;
-        private String phoneNumber;
-        private int userID;
-        private String lecturerRole;
-        private int birthYear;
-        private int birthMonth;
-        private Date dateOfBirth;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String phoneNumber;
+    private int userID;
+    private String lecturerRole;
 
-        // constructor
-    public Lecturer(int lecturerID, String firstName, String lastName, String email, String phoneNumber, int userID, String lecturerRole, int birthYear, int birthMonth, Date dateOfBirth) {
+    public Lecturer(int lecturerID, String firstName, String lastName, String email, String phoneNumber, int userID, String lecturerRole) {
         this.lecturerID = lecturerID;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -32,12 +28,8 @@ public class Lecturer {
         this.phoneNumber = phoneNumber;
         this.userID = userID;
         this.lecturerRole = lecturerRole;
-        this.birthYear = birthYear;
-        this.birthMonth = birthMonth;
-        this.dateOfBirth = dateOfBirth;
     }
 
-    // getters and setters
     public int getLecturerID() {
         return lecturerID;
     }
@@ -66,18 +58,6 @@ public class Lecturer {
         return lecturerRole;
     }
 
-    public int getBirthYear() {
-        return birthYear;
-    }
-
-    public int getBirthMonth() {
-        return birthMonth;
-    }
-
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
     public void setLecturerID(int lecturerID) {
         this.lecturerID = lecturerID;
     }
@@ -104,17 +84,5 @@ public class Lecturer {
 
     public void setLecturerRole(String lecturerRole) {
         this.lecturerRole = lecturerRole;
-    }
-
-    public void setBirthYear(int birthYear) {
-        this.birthYear = birthYear;
-    }
-
-    public void setBirthMonth(int birthMonth) {
-        this.birthMonth = birthMonth;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }            
+    }    
 }
