@@ -4,7 +4,9 @@
  */
 package dataprocessing;
 
+import dao.EnrollmentDaoImpl;
 import dao.LecturerDaoImpl;
+import dao.ModuleDaoImpl;
 import dao.UserDaoImpl;
 
 import databaseintegration.DBConnector;
@@ -31,10 +33,13 @@ public class CmsApplication {
        Scanner scanner = new Scanner(System.in);
        
        try (Connection conn = DBConnector.connect()) {
-            LecturerDaoImpl lecturerDao = new LecturerDaoImpl(conn); 
+           EnrollmentDaoImpl enrollmentDao = new EnrollmentDaoImpl(conn);  
+           LecturerDaoImpl lecturerDao = new LecturerDaoImpl(conn); 
+            ModuleDaoImpl moduleDao = new ModuleDaoImpl(conn); 
+            
             UserDaoImpl userDao = new UserDaoImpl(conn);            
 
-            ReportGenerator reportGenerator = new ReportGenerator(lecturerDao);
+            ReportGenerator reportGenerator = new ReportGenerator(enrollmentDao, lecturerDao, moduleDao);
             reportGenerator.generateLecturerReport(2);
                     
             MenuSystem menuSystem = new MenuSystem(scanner, userDao);

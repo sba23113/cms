@@ -59,7 +59,7 @@ public class EnrollmentDaoImpl implements EnrollmentDao {
             pstmt.setInt(1, moduleId); // Replace the ? in the above SQL query with the provided moduleId
             try (ResultSet rs = pstmt.executeQuery()) { // Execute the SQL query -> store result in ResultSet object
                 if (rs.next()) {  // Check if the query returned at least 1 result
-                    enrollmentCount = rs.getInt("count"); // retrieve enrollmentCount value from ResultSet object 
+                    enrollmentCount = rs.getInt("enrollmentCount"); // retrieve enrollmentCount value from ResultSet object 
                 }
             }
         } catch (SQLException e) {
