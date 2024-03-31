@@ -71,4 +71,37 @@ private Connection conn;
 
         return modules; // Return list of modules
     }
+    
+    /**
+     * Method returns a list of all modules taught by lecturer
+     * @param lecturerId
+     * @return 
+     */
+    @Override
+    public List<Module> getModulesByLecturerId(int lecturerId) {
+        List<Module> modules = new ArrayList<>(); // Initialize an ArrayList that will hold Module objects
+        String sql = "SELECT m.* FROM Modules m " + "JOIN LecturerModules lm ON m.ModuleID = lm.ModuleID " + "WHERE lm.LecturerID = ?"; // SQL query to select all modules from LecturerModules table associated with lecturer's ID
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) { // PreparedStatement to prevent SQL injection attacks wrapped in try-with-resources to prevent resouce leaks
+            pstmt.setInt(1, lecturerId);  // Replace the ? in the above SQL query with the provided lecturerId
+            try (ResultSet rs = pstmt.executeQuery()) { // Execute the SQL query -> store result in ResultSet object
+                while (rs.next()) { // Iterate over each row in the result set
+                    Module module = new Module( // Create a new Module object
+                        rs.getInt("ModuleID"),
+                        rs.getString("ModuleCode"),
+                        rs.getString("ModuleName"),
+                        rs.getString("ModuleDescription"),
+                        rs.getInt("Credits"),
+                        rs.getInt("CourseID"),
+                        rs.getInt("RoomID")
+                    );
+                    modules.add(module); // Add the object to the modules ArrayList
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return modules;
+    }
 }
