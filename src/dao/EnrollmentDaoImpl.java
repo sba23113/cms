@@ -7,6 +7,8 @@ package dao;
 
 import tables.Enrollment;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -67,6 +69,32 @@ public class EnrollmentDaoImpl implements EnrollmentDao {
         }
 
         return enrollmentCount;
+    }
+    
+    @Override
+    public List<Enrollment> getEnrollmentsByStudentId(int studentId) {
+        List<Enrollment> enrollments = new ArrayList<>(); // initialize enrollments ArrayList
+        String sql = "SELECT * FROM Enrollments WHERE StudentID = ?"; //  SQL query to select all columns from the Enrollments table where the StudentID column matches the requested value
+        
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) { // PreparedStatement to prevent SQL injection attacks wrapped in try-with-resources to prevent resouce leaks
+            pstmt.setInt(1, studentId); // Replace the ? in the above SQL query with the provided username
+            ResultSet rs = pstmt.executeQuery(); // Execute the SQL query -> store result in ResultSet object
+            while (rs.next()) { // while there is another row to read retrieve enrollment data
+                Enrollment enrollment = new Enrollment( // create new Enrollment object
+                    rs.getInt("EnrollmentID"),
+                    rs.getInt("StudentID"),
+                    rs.getInt("ModuleID"),
+                    rs.getInt("CourseID"),
+                    rs.getString("Status"),
+                    rs.getInt("ModuleAttempt")
+                );
+                enrollments.add(enrollment); // add Enrollment object to list
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        return enrollments;
     }
 
 }

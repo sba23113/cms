@@ -4,6 +4,7 @@
  */
 package dao;
 
+import java.util.List;
 import tables.Enrollment;
 
 /**
@@ -13,4 +14,5 @@ import tables.Enrollment;
 public interface EnrollmentDao {
     Enrollment getEnrollmentById(int enrollmentId);
     int getEnrollmentCountByModuleId(int moduleId);
+    List<Enrollment> getEnrollmentsByStudentId(int studentId);
 }
