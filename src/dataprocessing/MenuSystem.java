@@ -85,22 +85,35 @@ public class MenuSystem {
         System.out.print("Enter password: ");
         String password = scanner.nextLine();                
         
-        boolean isAuthenticated = true; // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!REPLACE WITH ACTUAL AUTHENTICATION LOGIC!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        User user = userDao.getUser(username); // Get user by username
         
-        if (isAuthenticated) {
-            showRoleBasedMenu();
+        if (user != null && user.getPasswordHash().equals(password)) { // Login details match details stored in database
+            System.out.println("You are logged in!");
+            showRoleBasedMenu(user.getUserRole()); // Show relevant menu based on user's role
         } else {
             System.out.println("Invalid login details! Please try again!");
         }
     }
 
-    /**
-     * Display menu based on user's role
-     */
-    private void showRoleBasedMenu() {
-        boolean loggedIn = true; // Flag to control the loop
-        while (loggedIn) {
-            // CMS admin menu
+    private void showRoleBasedMenu(UserRole role) {
+        switch (role) {
+            case ADMIN:
+                showAdminMenu();
+                break;
+            case OFFICE:
+                System.out.println("office");
+                break;
+            case LECTURER:
+                System.out.println("lecturer");
+                break;
+            default:
+                System.out.println("Wrong role - try again!");
+        }
+    }
+    
+    private void showAdminMenu() {
+        boolean adminLoggedIn = true; // Flag to control the loop
+        while (adminLoggedIn) {
             System.out.println("");
             System.out.println("****************************************************************************");
             System.out.println("Course Management System - Administrator Menu");
@@ -125,7 +138,7 @@ public class MenuSystem {
                     break;
                 case 0:
                     System.out.println("Logging out...");
-                    loggedIn = false;
+                    adminLoggedIn = false;
                     break;
                 default:
                     System.out.println("!!!Invalid choice!!!");
