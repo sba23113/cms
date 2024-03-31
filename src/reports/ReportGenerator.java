@@ -129,26 +129,6 @@ public class ReportGenerator {
         reportOutput.exportReport(reportData, "StudentReport_" + studentId);
     }
     
-    private void printEnrollmentDetails(List<Enrollment> enrollments, String status) {
-        boolean found = false;
-        for (Enrollment enrollment : enrollments) {
-            if (enrollment.getStatus().equals(status)) {
-                found = true;
-                Module module = moduleDao.getModuleById(enrollment.getModuleID());
-                System.out.println(" - " + module.getModuleName());
-
-                if (status.equals("Completed")) {
-                    Grade grade = gradeDao.getGradeByEnrollmentId(enrollment.getEnrollmentID());
-                    System.out.println("   Grade: " + (grade != null ? grade.getGradeValue() : "N/A"));
-                }
-            }
-        }
-
-        if (!found) {
-            System.out.println("   None");
-        }
-    }
-    
     // COURSES REPORT
     /**
      * Method produces courses report
