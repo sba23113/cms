@@ -101,7 +101,7 @@ public class MenuSystem {
                 showAdminMenu();
                 break;
             case OFFICE:
-                System.out.println("office");
+                showOfficeMenu();
                 break;
             case LECTURER:
                 System.out.println("lecturer");
@@ -142,6 +142,41 @@ public class MenuSystem {
                     break;
                 default:
                     System.out.println("!!!Invalid choice!!!");
+            }
+        }
+    }
+    
+    private void showOfficeMenu() {
+        boolean userLoggedIn = true; // Flag to control the loop
+        while (userLoggedIn) {
+            System.out.println("");
+            System.out.println("****************************************************************************");
+            System.out.println("Course Management System - Office User Menu");
+            System.out.println("****************************************************************************");
+            System.out.println("1) Generate Course Report");
+            System.out.println("2) Generate Student Report");
+            System.out.println("3) Generate Lecturer Report");
+            System.out.println("0) Logout");
+            System.out.println("");
+            System.out.print("Enter your choice: ");
+            int choice = getIntInput();                     
+            
+            switch (choice) {
+                case 1:
+                    System.out.println("Course Report...");
+                    break;
+                case 2:
+                    System.out.println("Student Report...");
+                    break;
+                case 3:
+                    System.out.println("Lecturer Report...");
+                    break;
+                case 0:
+                    userLoggedIn = false;
+                    System.out.println("Logging out...");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
             }
         }
     }
