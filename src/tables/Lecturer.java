@@ -19,8 +19,9 @@ public class Lecturer {
     private String phoneNumber;
     private int userID;
     private String lecturerRole;
+    private String subjectsTaught;
 
-    public Lecturer(int lecturerID, String firstName, String lastName, String email, String phoneNumber, int userID, String lecturerRole) {
+    public Lecturer(int lecturerID, String firstName, String lastName, String email, String phoneNumber, int userID, String lecturerRole, String subjectsTaught) {
         this.lecturerID = lecturerID;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -28,6 +29,7 @@ public class Lecturer {
         this.phoneNumber = phoneNumber;
         this.userID = userID;
         this.lecturerRole = lecturerRole;
+        this.subjectsTaught = subjectsTaught;
     }
 
     public int getLecturerID() {
@@ -58,6 +60,10 @@ public class Lecturer {
         return lecturerRole;
     }
 
+    public String getSubjectsTaught() {
+        return subjectsTaught;
+    }
+
     public void setLecturerID(int lecturerID) {
         this.lecturerID = lecturerID;
     }
@@ -84,5 +90,11 @@ public class Lecturer {
 
     public void setLecturerRole(String lecturerRole) {
         this.lecturerRole = lecturerRole;
-    }    
+    }
+
+    public void setSubjectsTaught(String subjectsTaught) {
+        this.subjectsTaught = subjectsTaught;
+    }
+
+    
 }

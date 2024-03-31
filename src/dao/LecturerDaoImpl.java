@@ -44,7 +44,8 @@ public class LecturerDaoImpl implements LecturerDao {
                     rs.getString("Email"),
                     rs.getString("PhoneNumber"),
                     rs.getInt("UserID"),
-                    rs.getString("LecturerRole")
+                    rs.getString("LecturerRole"),
+                    rs.getString("SubjectsTaught")
                 );
             }
         } catch (SQLException e) {
@@ -74,7 +75,8 @@ public class LecturerDaoImpl implements LecturerDao {
                     rs.getString("Email"),
                     rs.getString("PhoneNumber"),
                     rs.getInt("UserID"),
-                    rs.getString("LecturerRole")
+                    rs.getString("LecturerRole"),
+                    rs.getString("SubjectsTaught")
                 );
                 lecturers.add(lecturer); // Add the object to the lecturers ArrayList
             }
