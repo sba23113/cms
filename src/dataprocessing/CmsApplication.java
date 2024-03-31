@@ -46,7 +46,7 @@ public class CmsApplication {
             UserDaoImpl userDao = new UserDaoImpl(conn);            
 
             ReportGenerator reportGenerator = new ReportGenerator(courseDao, enrollmentDao, gradeDao, lecturerDao, moduleDao, studentDao);
-            reportGenerator.generateStudentReport(74);
+            reportGenerator.generateCourseReport(2);
                     
             MenuSystem menuSystem = new MenuSystem(scanner, userDao);
             menuSystem.displayMainMenu();

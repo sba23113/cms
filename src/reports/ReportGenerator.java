@@ -115,4 +115,44 @@ public class ReportGenerator {
             System.out.println("   None");
         }
     }
+    
+    // COURSES REPORT
+    /**
+     * Method produces courses report
+     * @return 
+     */
+    public void generateCourseReport(int courseId) {
+        Course course = courseDao.getCourseById(courseId);
+        if (course == null) {
+            System.out.println("Course not found.");
+            return;
+        }
+
+        System.out.println("Course Report for " + course.getCourseName() + ":");
+                
+        List<Module> modules = moduleDao.getModulesByCourseId(courseId);// Get all modules for the specified course
+        for (Module module : modules) {
+            System.out.println("   Module Name: " + module.getModuleName());
+            System.out.println("   Module Code: " + module.getModuleCode());
+                        
+            Lecturer lecturer = lecturerDao.getLecturerByModuleId(module.getModuleID()); // Get the lecturer for each module
+            if (lecturer != null) {
+                System.out.println("   Module Lecturer: " + lecturer.getFirstName() + " " + lecturer.getLastName());
+            } else {
+                System.out.println("N/A");
+            }
+                        
+            int enrollmentCount = enrollmentDao.getEnrollmentCountByModuleId(module.getModuleID()); // Get enrollment count for each module
+            System.out.println("   Number of Students Enrolled: " + enrollmentCount);
+            
+            String room;
+            if (module.getRoomID() > 0) {
+                room = "Room " + module.getRoomID();
+            } else {
+                room = "Online";
+            }            
+            System.out.println("   Room: " + room);
+            System.out.println("");
+        }
+    }
 }
