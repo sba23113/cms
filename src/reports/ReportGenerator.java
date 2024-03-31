@@ -11,6 +11,7 @@ import dao.GradeDao;
 import dao.LecturerDao;
 import dao.ModuleDao;
 import dao.StudentDao;
+import java.util.ArrayList;
 
 import java.util.List;
 import tables.Course;
@@ -51,21 +52,25 @@ public class ReportGenerator {
         Lecturer lecturer = lecturerDao.getLecturerById(lecturerId); // retrieve Lecturer object for given lecturerId -> if not found, evaluate to null
         if (lecturer == null) {
             System.out.println("Lecturer not found!");
+            return;
         }
 
-        System.out.println("Lecturer: " + lecturer.getFirstName() + " " + lecturer.getLastName()); // if found, print out lecturer details
-        System.out.println("Role: " + lecturer.getLecturerRole());
-        System.out.println("");
-        System.out.println("Can teach: " + lecturer.getSubjectsTaught());
-        System.out.println("");
-        System.out.println("Modules taught:");
-        
-        List<Module> modules = moduleDao.getModulesByLecturerId(lecturerId); // get list of modules taught by the lecturer        
-        
+        ReportData reportData = new ReportData();
+        List<String> header = List.of("Module Name", "Module Code", "Student Count");
+        reportData.addRow(header);
+
+        List<Module> modules = moduleDao.getModulesByLecturerId(lecturerId);
         for (Module module : modules) {
             int studentCount = enrollmentDao.getEnrollmentCountByModuleId(module.getModuleID());
-            System.out.println(module.getModuleName() + " | " + "Code: " + module.getModuleCode() + " | " + "Student Count: " + studentCount); // Extract and print out module details
+            List<String> row = new ArrayList<>();
+            row.add(module.getModuleName());
+            row.add(module.getModuleCode());
+            row.add(String.valueOf(studentCount));
+            reportData.addRow(row); // Add the module data as a row to the report
         }
+
+        // Use the provided ReportOutput implementation to export the report.
+        reportOutput.exportReport(reportData, "LecturerReport_" + lecturerId);
     }
     
     // STUDENT REPORT
