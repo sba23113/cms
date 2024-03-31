@@ -14,5 +14,5 @@ import tables.Enrollment;
 public interface EnrollmentDao {
     Enrollment getEnrollmentById(int enrollmentId);
     int getEnrollmentCountByModuleId(int moduleId);
-    List<Enrollment> getEnrollmentsByStudentId(int studentId);
+    List<Enrollment> getEnrollmentsByStudentId(int studentId);    
 }

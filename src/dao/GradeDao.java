@@ -12,4 +12,5 @@ import tables.Grade;
  */
 public interface GradeDao {
     Grade getGradeById(int gradeId);
+    Grade getGradeByEnrollmentId(int enrollmentId);
 }

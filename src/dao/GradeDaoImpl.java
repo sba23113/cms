@@ -41,4 +41,27 @@ public class GradeDaoImpl implements GradeDao {
 
         return grade;  //  Return Grade object
     }
+    
+    @Override
+    public Grade getGradeByEnrollmentId(int enrollmentId) {  
+        String sql = "SELECT * FROM Grades WHERE EnrollmentID = ?"; // SQL query to select all columns from the Grades table where the enrollmentId column matches the requested value
+        Grade grade = null;  // Initialize Grade object to null so that null is returned if matching Grade is not found
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) { // PreparedStatement to prevent SQL injection attacks wrapped in try-with-resources to prevent resouce leaks
+            pstmt.setInt(1, enrollmentId); // Replace the ? in the above SQL query with the provided enrollmentId
+            try (ResultSet rs = pstmt.executeQuery()) { // Execute the SQL query -> store result in ResultSet object
+                if (rs.next()) { // Check if the query returned at least 1 result
+                    grade = new Grade(  // Create a new Grade object
+                        rs.getInt("GradeID"),
+                        rs.getInt("EnrollmentID"),
+                        rs.getFloat("GradeValue")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return grade; //  Return Grade object
+    }
 }
