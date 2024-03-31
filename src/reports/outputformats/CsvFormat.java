@@ -15,13 +15,12 @@ import reports.ReportOutput;
  * 
  * @author Lukas Homola <sba23113@student.cct.ie>
  */
-public class CsvFormat implements ReportOutput { // Implement the ReportOutput interface
-
+public class CsvFormat implements ReportOutput {
     @Override
     public void exportReport(ReportData reportData, String reportName) throws IOException {
         try (FileWriter writer = new FileWriter(reportName + ".csv")) {
             for (List<String> row : reportData.getRows()) {
-                String line = String.join(",", row); // For CSV, we separate items with a comma
+                String line = String.join(",", row);
                 writer.write(line + System.lineSeparator());
             }
         }
