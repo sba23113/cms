@@ -14,5 +14,6 @@ import java.util.List;
 public interface ModuleDao {
     Module getModuleById(int moduleId);
     List<Module> getAllModules();
+    List<Module> getModulesByCourseId(int courseId);
     List<Module> getModulesByLecturerId(int lecturerId);
 }

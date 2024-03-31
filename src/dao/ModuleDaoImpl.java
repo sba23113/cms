@@ -104,4 +104,32 @@ private Connection conn;
 
         return modules;
     }
+    
+    @Override
+    public List<Module> getModulesByCourseId(int courseId) {
+        List<Module> modules = new ArrayList<>();
+        String sql = "SELECT * FROM Modules WHERE CourseID = ?";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, courseId);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Module module = new Module(
+                    rs.getInt("ModuleID"),
+                    rs.getString("ModuleCode"),
+                    rs.getString("ModuleName"),
+                    rs.getString("ModuleDescription"),
+                    rs.getInt("Credits"),
+                    rs.getInt("CourseID"),
+                    rs.getInt("RoomID")
+                );
+                modules.add(module);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return modules;
+    }
 }
