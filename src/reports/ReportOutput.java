@@ -11,5 +11,5 @@ import java.io.IOException;
  * @author Lukas Homola <sba23113@student.cct.ie>
  */
 public interface ReportOutput {
-    void exportReport(String reportContent, String reportName) throws IOException;
+    void exportReport(ReportData reportData, String reportName) throws IOException;
 }
