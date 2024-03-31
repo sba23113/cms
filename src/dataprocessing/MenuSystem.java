@@ -119,6 +119,20 @@ public class MenuSystem {
         }
     }
     
+    private void changePassword() {
+        if (currentUser == null) {
+            return;
+        }
+        System.out.print("Enter your new password: ");
+        String newPassword = scanner.nextLine();
+        currentUser.setPasswordHash(newPassword);
+        if (userDao.updateUser(currentUser)) {
+            System.out.println("Password updated.");
+        } else {
+            System.out.println("Password could not be updated. Please try again.");
+        }
+    }
+    
     private void showRoleBasedMenu(UserRole role) {
         switch (role) {
             case ADMIN:
@@ -166,7 +180,7 @@ public class MenuSystem {
                     changeUsername();
                     break;
                 case 5:
-                    System.out.println("password changed");
+                    changePassword();
                     break;
                 case 0:
                     System.out.println("Logging out...");
@@ -221,7 +235,7 @@ public class MenuSystem {
                         changeUsername();
                         break;
                     case 5:
-                        System.out.println("password changed");
+                        changePassword();
                         break;
                     case 0:
                         userLoggedIn = false;
@@ -267,7 +281,7 @@ public class MenuSystem {
                         changeUsername();
                         break;
                     case 5:
-                        System.out.println("password changed");
+                        changePassword();
                         break;
                     default:
                         System.out.println("!!!Invalid choice!!!");
