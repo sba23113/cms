@@ -48,23 +48,6 @@ public class CmsApplication {
                     
             MenuSystem menuSystem = new MenuSystem(reportGenerator, scanner, userDao);
             menuSystem.displayMainMenu();
-            /*
-            List<User> users = userDao.getAllUsers();
-
-            if (users.isEmpty()) {
-                System.out.println("There are no users to show.");
-            } else {
-                System.out.printf("%-10s %-20s %-30s %s\n", "UserID", "Username", "Password Hash", "Role");
-                System.out.println("------------------------------------------------------------------------------");
-
-                for (User user : users) {
-                    System.out.printf("%-10d %-20s %-30s %s\n",
-                        user.getUserID(),
-                        user.getUsername(),
-                        user.getPasswordHash(),
-                        user.getUserRole());
-                }
-            }*/
         } catch (Exception e) {
             e.printStackTrace();
         }

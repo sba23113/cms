@@ -23,11 +23,13 @@ public class MenuSystem {
     private ReportGenerator reportGenerator;
     private Scanner scanner;
     private UserDao userDao;
+    private User currentUser;
 
     public MenuSystem(ReportGenerator reportGenerator, Scanner scanner, UserDao userDao) {
         this.reportGenerator = reportGenerator;
         this.scanner = scanner;
         this.userDao = userDao;
+        this.currentUser = null;
     }    
     
     /**
@@ -94,6 +96,7 @@ public class MenuSystem {
         User user = userDao.getUser(username); // Get user by username
         
         if (user != null && user.getPasswordHash().equals(password)) { // Login details match details stored in database
+            currentUser = user;
             System.out.println("You are logged in!");
             showRoleBasedMenu(user.getUserRole()); // Show relevant menu based on user's role
         } else {
@@ -101,6 +104,21 @@ public class MenuSystem {
         }
     }
 
+    private void changeUsername() {
+        if (currentUser == null) {
+            return;
+        }
+        
+        System.out.print("Enter your new username: ");
+        String newUsername = scanner.nextLine();
+        currentUser.setUsername(newUsername);
+        if (userDao.updateUser(currentUser)) {
+            System.out.println("Username updated");
+        } else {
+            System.out.println("Username could not be updated. Please try again.");
+        }
+    }
+    
     private void showRoleBasedMenu(UserRole role) {
         switch (role) {
             case ADMIN:
@@ -127,6 +145,8 @@ public class MenuSystem {
             System.out.println("1) Add User");
             System.out.println("2) Modify User");
             System.out.println("3) Delete User");
+            System.out.println("4) Change Username");
+            System.out.println("5) Change Password");
             System.out.println("0) Logout");
             System.out.println("");
             System.out.print("Enter your choice: ");
@@ -141,6 +161,12 @@ public class MenuSystem {
                     break;
                 case 3:
                     deleteUser();
+                    break;
+                case 4:
+                    changeUsername();
+                    break;
+                case 5:
+                    System.out.println("password changed");
                     break;
                 case 0:
                     System.out.println("Logging out...");
@@ -164,6 +190,8 @@ public class MenuSystem {
             System.out.println("1) Generate Course Report");
             System.out.println("2) Generate Student Report");
             System.out.println("3) Generate Lecturer Report");
+            System.out.println("4) Change Username");
+            System.out.println("5) Change Password");
             System.out.println("0) Logout");
             System.out.println("");
             System.out.print("Enter your choice: ");
@@ -189,6 +217,12 @@ public class MenuSystem {
                         reportOutput = formatSelector.selectFormat();
                         reportGenerator.generateLecturerReport(lecturerId, reportOutput);
                         break;
+                    case 4:
+                        changeUsername();
+                        break;
+                    case 5:
+                        System.out.println("password changed");
+                        break;
                     case 0:
                         userLoggedIn = false;
                         System.out.println("Logging out...");
@@ -211,7 +245,9 @@ public class MenuSystem {
             System.out.println("****************************************************************************");
             System.out.println("Course Management System - Lecturer Menu");
             System.out.println("****************************************************************************");
-            System.out.println("1) Generate Course Report");
+            System.out.println("1) Generate Lecturer Report");
+            System.out.println("4) Change Username");
+            System.out.println("5) Change Password");
             System.out.println("0. Logout");
 
             int choice = getIntInput();
@@ -226,6 +262,12 @@ public class MenuSystem {
                     case 0:
                         lecturerLoggedIn = false;
                         System.out.println("Logging out...");
+                        break;
+                    case 4:
+                        changeUsername();
+                        break;
+                    case 5:
+                        System.out.println("password changed");
                         break;
                     default:
                         System.out.println("!!!Invalid choice!!!");
