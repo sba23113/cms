@@ -11,6 +11,7 @@ import dao.GradeDao;
 import dao.LecturerDao;
 import dao.ModuleDao;
 import dao.StudentDao;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -48,7 +49,7 @@ public class ReportGenerator {
      * @param lecturerId
      * @return 
      */
-    public void generateLecturerReport(int lecturerId) {
+    public void generateLecturerReport(int lecturerId, ReportOutput reportOutput) throws IOException {
         Lecturer lecturer = lecturerDao.getLecturerById(lecturerId); // retrieve Lecturer object for given lecturerId -> if not found, evaluate to null
         if (lecturer == null) {
             System.out.println("Lecturer not found!");
@@ -66,10 +67,9 @@ public class ReportGenerator {
             row.add(module.getModuleName());
             row.add(module.getModuleCode());
             row.add(String.valueOf(studentCount));
-            reportData.addRow(row); // Add the module data as a row to the report
+            reportData.addRow(row); 
         }
 
-        // Use the provided ReportOutput implementation to export the report.
         reportOutput.exportReport(reportData, "LecturerReport_" + lecturerId);
     }
     

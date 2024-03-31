@@ -16,11 +16,9 @@ import java.util.Scanner;
  */
 public class ReportOutputFormatSelector {
     private Scanner scanner;
-    private ReportGenerator reportGenerator;
-
-    public ReportOutputFormatSelector(Scanner scanner, ReportGenerator reportGenerator) {
+    
+    public ReportOutputFormatSelector(Scanner scanner) {
         this.scanner = scanner;
-        this.reportGenerator = reportGenerator;
     }
     
     public ReportOutput selectFormat() {

@@ -6,9 +6,12 @@
 package dataprocessing;
 
 import dao.UserDao;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import reports.ReportGenerator;
+import reports.ReportOutput;
+import reports.ReportOutputFormatSelector;
 import tables.User;
 import tables.UserRole;
 
@@ -150,6 +153,8 @@ public class MenuSystem {
     }
     
     private void showOfficeMenu() {
+        ReportOutputFormatSelector formatSelector = new ReportOutputFormatSelector(scanner);
+
         boolean userLoggedIn = true; // Flag to control the loop
         while (userLoggedIn) {
             System.out.println("");
@@ -164,28 +169,33 @@ public class MenuSystem {
             System.out.print("Enter your choice: ");
             int choice = getIntInput();                     
             
-            switch (choice) {
-                case 1:
-                    System.out.print("Enter Course ID for the report: ");
-                    int courseId = getIntInput();
-                    reportGenerator.generateCourseReport(courseId);
-                    break;
-                case 2:
-                    System.out.print("Enter Student ID for the report: ");
-                    int studentId = getIntInput();
-                    reportGenerator.generateStudentReport(studentId);
-                    break;
-                case 3:
-                    System.out.print("Enter Lecturer ID for the report: ");
-                    int lecturerId = getIntInput();
-                    reportGenerator.generateLecturerReport(lecturerId);
-                    break;
-                case 0:
-                    userLoggedIn = false;
-                    System.out.println("Logging out...");
-                    break;
-                default:
-                    System.out.println("!!!Invalid choice!!!");
+            try {
+                switch (choice) {
+                    case 1:
+                        System.out.print("Enter Course ID for the report: ");
+                        int courseId = getIntInput();
+                        reportGenerator.generateCourseReport(courseId);
+                        break;
+                    case 2:
+                        System.out.print("Enter Student ID for the report: ");
+                        int studentId = getIntInput();
+                        reportGenerator.generateStudentReport(studentId);
+                        break;
+                    case 3:
+                        System.out.print("Enter Lecturer ID for the report: ");
+                        int lecturerId = getIntInput();
+                        ReportOutput reportOutput = formatSelector.selectFormat();
+                        reportGenerator.generateLecturerReport(lecturerId, reportOutput);
+                        break;
+                    case 0:
+                        userLoggedIn = false;
+                        System.out.println("Logging out...");
+                        break;
+                    default:
+                        System.out.println("!!!Invalid choice!!!");
+                }
+            } catch (IOException e) {
+                System.out.println(e);
             }
         }
     }
