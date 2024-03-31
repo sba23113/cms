@@ -134,38 +134,42 @@ public class ReportGenerator {
      * Method produces courses report
      * @return 
      */
-    public void generateCourseReport(int courseId) {
+    public void generateCourseReport(int courseId, ReportOutput reportOutput) throws IOException {
         Course course = courseDao.getCourseById(courseId);
         if (course == null) {
             System.out.println("Course not found.");
             return;
         }
 
-        System.out.println("Course Report for " + course.getCourseName() + ":");
+        ReportData reportData = new ReportData();
+        List<String> header = List.of("Module Name", "Module Code", "Lecturer", "Student Count", "Room");
+        reportData.addRow(header);
                 
         List<Module> modules = moduleDao.getModulesByCourseId(courseId);// Get all modules for the specified course
         for (Module module : modules) {
-            System.out.println("   Module Name: " + module.getModuleName());
-            System.out.println("   Module Code: " + module.getModuleCode());
+            List<String> row = new ArrayList<>();
+            row.add(module.getModuleName());
+            row.add(module.getModuleCode());
                         
             Lecturer lecturer = lecturerDao.getLecturerByModuleId(module.getModuleID()); // Get the lecturer for each module
             if (lecturer != null) {
-                System.out.println("   Module Lecturer: " + lecturer.getFirstName() + " " + lecturer.getLastName());
+                row.add(lecturer.getFirstName() + " " + lecturer.getLastName());
             } else {
-                System.out.println("N/A");
+                row.add("N/A");
             }
                         
             int enrollmentCount = enrollmentDao.getEnrollmentCountByModuleId(module.getModuleID()); // Get enrollment count for each module
-            System.out.println("   Number of Students Enrolled: " + enrollmentCount);
+            row.add(Integer.toString(enrollmentCount));
             
-            String room;
             if (module.getRoomID() > 0) {
-                room = "Room " + module.getRoomID();
+                row.add(Integer.toString(module.getRoomID()));
             } else {
-                room = "Online";
-            }            
-            System.out.println("   Room: " + room);
-            System.out.println("");
+                 row.add("Online");
+            }      
+            
+            reportData.addRow(row);
         }
+        
+        reportOutput.exportReport(reportData, "CourseReport_" + courseId);
     }
 }

@@ -174,12 +174,13 @@ public class MenuSystem {
                     case 1:
                         System.out.print("Enter Course ID for the report: ");
                         int courseId = getIntInput();
-                        reportGenerator.generateCourseReport(courseId);
+                        ReportOutput reportOutput = formatSelector.selectFormat();
+                        reportGenerator.generateCourseReport(courseId, reportOutput);
                         break;
                     case 2:
                         System.out.print("Enter Student ID for the report: ");
                         int studentId = getIntInput();
-                        ReportOutput reportOutput = formatSelector.selectFormat();
+                        reportOutput = formatSelector.selectFormat();
                         reportGenerator.generateStudentReport(studentId, reportOutput);
                         break;
                     case 3:
