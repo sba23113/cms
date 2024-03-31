@@ -86,4 +86,32 @@ public class LecturerDaoImpl implements LecturerDao {
         
         return lecturers;
     }
+    
+    @Override
+    public Lecturer getLecturerByModuleId(int moduleId) {
+        Lecturer lecturer = null;
+        String sql = "SELECT l.* FROM Lecturers l " + "JOIN LecturerModules lm ON l.LecturerID = lm.LecturerID " + "WHERE lm.ModuleID = ?";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, moduleId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                lecturer = new Lecturer(
+                    rs.getInt("LecturerID"),
+                    rs.getString("FirstName"),
+                    rs.getString("LastName"),
+                    rs.getString("Email"),
+                    rs.getString("PhoneNumber"),
+                    rs.getInt("UserID"),
+                    rs.getString("LecturerRole"),
+                    rs.getString("SubjectsTaught")
+                );
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return lecturer;
+    }
 }

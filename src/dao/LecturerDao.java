@@ -14,4 +14,5 @@ import java.util.List;
 public interface LecturerDao {
     Lecturer getLecturerById(int lecturerId);
     List<Lecturer> getAllLecturers();
+    Lecturer getLecturerByModuleId(int moduleId);
 }
