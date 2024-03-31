@@ -110,7 +110,7 @@ public class MenuSystem {
                 showOfficeMenu();
                 break;
             case LECTURER:
-                System.out.println("lecturer");
+                showLecturerMenu();
                 break;
             default:
                 System.out.println("Wrong role - try again!");
