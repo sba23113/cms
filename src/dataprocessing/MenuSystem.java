@@ -171,10 +171,14 @@ public class MenuSystem {
                     reportGenerator.generateCourseReport(courseId);
                     break;
                 case 2:
-                    System.out.println("Student Report...");
+                    System.out.print("Enter Student ID for the report: ");
+                    int studentId = getIntInput();
+                    reportGenerator.generateStudentReport(studentId);
                     break;
                 case 3:
-                    System.out.println("Lecturer Report...");
+                    System.out.print("Enter Lecturer ID for the report: ");
+                    int lecturerId = getIntInput();
+                    reportGenerator.generateLecturerReport(lecturerId);
                     break;
                 case 0:
                     userLoggedIn = false;
