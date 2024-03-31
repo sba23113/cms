@@ -47,7 +47,8 @@ public class ReportGenerator {
     /**
      * Method produces report for a lecturer
      * @param lecturerId
-     * @return 
+     * @param reportOutput
+     * @throws IOException 
      */
     public void generateLecturerReport(int lecturerId, ReportOutput reportOutput) throws IOException {
         Lecturer lecturer = lecturerDao.getLecturerById(lecturerId); // retrieve Lecturer object for given lecturerId -> if not found, evaluate to null
@@ -77,30 +78,57 @@ public class ReportGenerator {
     /**
      * Method produces report for a student
      * @param studentId
-     * @return 
+     * @param reportOutput
+     * @throws IOException 
      */
-    public void generateStudentReport(int studentId) {
+    public void generateStudentReport(int studentId, ReportOutput reportOutput) throws IOException {
         Student student = studentDao.getStudentById(studentId);  // retrieve Student object for given lecturerId -> if not found, evaluate to null
         if (student == null) {
             System.out.println("Student not found");
+            return;
         }
+
+        ReportData reportData = new ReportData();
+        List<String> header = List.of("Student Name", "Programme", "Modules Enrolled", "Modules Completed", "Modules to Repeat");
+        reportData.addRow(header);
+
         Course course = courseDao.getCourseById(student.getCourseID());   // get course the student is undertaking
+        List<String> row = new ArrayList<>();
+        row.add(student.getFirstName() + " " + student.getLastName()); // if found, add student name
+        row.add(course != null ? course.getCourseName() : "N/A");
 
-        System.out.println("Student: " + student.getFirstName() + " " + student.getLastName()); // if found, print out student details
-        System.out.println("Programme: " + course.getCourseName());        
-        System.out.println("");
-        
         List<Enrollment> enrollments = enrollmentDao.getEnrollmentsByStudentId(studentId); // Get list of current, completed, and repeat modules
-        System.out.println("Current Enrollments:");
-        printEnrollmentDetails(enrollments, "Enrolled");
-        System.out.println("");
-        System.out.println("Completed Modules:");
-        printEnrollmentDetails(enrollments, "Completed");
-        System.out.println("");
-        System.out.println("Modules to Repeat:");
-        printEnrollmentDetails(enrollments, "Repeat");
-    }
+        List<String> modulesEnrolled = new ArrayList<>();
+        List<String> modulesCompleted = new ArrayList<>();
+        List<String> modulesRepeat = new ArrayList<>();
 
+        for (Enrollment enrollment : enrollments) {
+            Module module = moduleDao.getModuleById(enrollment.getModuleID());
+            String moduleName = module != null ? module.getModuleName() : "N/A";
+            switch (enrollment.getStatus()) {
+                case "Enrolled":
+                    modulesEnrolled.add(moduleName);
+                    break;
+                case "Completed":
+                    modulesCompleted.add(moduleName);
+                    break;
+                case "Repeat":
+                    modulesRepeat.add(moduleName);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        row.add(String.join(", ", modulesEnrolled));
+        row.add(String.join(", ", modulesCompleted));
+        row.add(String.join(", ", modulesRepeat));
+
+        reportData.addRow(row);
+
+        reportOutput.exportReport(reportData, "StudentReport_" + studentId);
+    }
+    
     private void printEnrollmentDetails(List<Enrollment> enrollments, String status) {
         boolean found = false;
         for (Enrollment enrollment : enrollments) {

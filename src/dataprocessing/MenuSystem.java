@@ -179,12 +179,13 @@ public class MenuSystem {
                     case 2:
                         System.out.print("Enter Student ID for the report: ");
                         int studentId = getIntInput();
-                        reportGenerator.generateStudentReport(studentId);
+                        ReportOutput reportOutput = formatSelector.selectFormat();
+                        reportGenerator.generateStudentReport(studentId, reportOutput);
                         break;
                     case 3:
                         System.out.print("Enter Lecturer ID for the report: ");
                         int lecturerId = getIntInput();
-                        ReportOutput reportOutput = formatSelector.selectFormat();
+                        reportOutput = formatSelector.selectFormat();
                         reportGenerator.generateLecturerReport(lecturerId, reportOutput);
                         break;
                     case 0:
@@ -201,6 +202,8 @@ public class MenuSystem {
     }
     
     public void showLecturerMenu() {
+        ReportOutputFormatSelector formatSelector = new ReportOutputFormatSelector(scanner);
+        
         boolean lecturerLoggedIn = true;
         while (lecturerLoggedIn) {
             System.out.println("");
@@ -211,18 +214,23 @@ public class MenuSystem {
             System.out.println("0. Logout");
 
             int choice = getIntInput();
-            switch (choice) {
-                case 1:
-                    System.out.print("Enter Lecturer's ID for the report: ");
-                    int lecturerId = getIntInput();
-                    reportGenerator.generateLecturerReport(lecturerId);
-                    break;
-                case 0:
-                    lecturerLoggedIn = false;
-                    System.out.println("Logging out...");
-                    break;
-                default:
-                    System.out.println("!!!Invalid choice!!!");
+            try {
+                switch (choice) {
+                    case 1:
+                        System.out.print("Enter Lecturer's ID for the report: ");
+                        int lecturerId = getIntInput();
+                        ReportOutput reportOutput = formatSelector.selectFormat();
+                        reportGenerator.generateLecturerReport(lecturerId, reportOutput);
+                        break;
+                    case 0:
+                        lecturerLoggedIn = false;
+                        System.out.println("Logging out...");
+                        break;
+                    default:
+                        System.out.println("!!!Invalid choice!!!");
+                }
+            } catch (IOException e) {
+                System.out.println(e);
             }
         }
     }
