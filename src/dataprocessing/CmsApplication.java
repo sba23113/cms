@@ -11,6 +11,7 @@ import databaseintegration.DBConnector;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Scanner;
+import reports.ReportGenerator;
 import tables.Lecturer;
 
 /**
@@ -33,11 +34,9 @@ public class CmsApplication {
             LecturerDaoImpl lecturerDao = new LecturerDaoImpl(conn); 
             UserDaoImpl userDao = new UserDaoImpl(conn);            
 
-            List<Lecturer> lecturers = lecturerDao.getAllLecturers();
-            for (Lecturer lecturer : lecturers) {
-                System.out.println(lecturer.getLecturerID() + ": " + lecturer.getFirstName() + " " + lecturer.getLastName());
-            }
-
+            ReportGenerator reportGenerator = new ReportGenerator(lecturerDao);
+            reportGenerator.generateLecturerReport(2);
+                    
             MenuSystem menuSystem = new MenuSystem(scanner, userDao);
             menuSystem.displayMainMenu();
             /*
