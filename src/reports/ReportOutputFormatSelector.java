@@ -32,7 +32,7 @@ public class ReportOutputFormatSelector {
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume the newline
 
-            switch (choice) {
+            switch (choice) { // select output format
                 case 1:
                     return new TxtFormat();
                 case 2:

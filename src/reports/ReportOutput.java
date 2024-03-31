@@ -11,5 +11,13 @@ import java.io.IOException;
  * @author Lukas Homola <sba23113@student.cct.ie>
  */
 public interface ReportOutput {
-    void exportReport(ReportData reportData, String reportName) throws IOException;
+    /**
+     * Exports the provided report data to a specific output format, identified by the reportName.
+     * Implementations are responsible for the actual export logic, including file writing, console output, etc.
+     *
+     * @param reportData
+     * @param reportName
+     * @throws IOException 
+     */
+    void exportReport(ReportData reportData, String reportName) throws IOException; 
 }
