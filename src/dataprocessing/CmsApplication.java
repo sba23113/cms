@@ -41,14 +41,12 @@ public class CmsApplication {
             GradeDaoImpl gradeDao = new GradeDaoImpl(conn);  
             LecturerDaoImpl lecturerDao = new LecturerDaoImpl(conn); 
             ModuleDaoImpl moduleDao = new ModuleDaoImpl(conn); 
-            StudentDaoImpl studentDao = new StudentDaoImpl(conn);  
-            
+            StudentDaoImpl studentDao = new StudentDaoImpl(conn);              
             UserDaoImpl userDao = new UserDaoImpl(conn);            
 
             ReportGenerator reportGenerator = new ReportGenerator(courseDao, enrollmentDao, gradeDao, lecturerDao, moduleDao, studentDao);
-            reportGenerator.generateCourseReport(2);
                     
-            MenuSystem menuSystem = new MenuSystem(scanner, userDao);
+            MenuSystem menuSystem = new MenuSystem(reportGenerator, scanner, userDao);
             menuSystem.displayMainMenu();
             /*
             List<User> users = userDao.getAllUsers();

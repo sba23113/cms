@@ -8,6 +8,7 @@ package dataprocessing;
 import dao.UserDao;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import reports.ReportGenerator;
 import tables.User;
 import tables.UserRole;
 
@@ -16,13 +17,15 @@ import tables.UserRole;
  * @author Lukas Homola <sba23113@student.cct.ie>
  */
 public class MenuSystem {
+    private ReportGenerator reportGenerator;
     private Scanner scanner;
     private UserDao userDao;
 
-    public MenuSystem(Scanner scanner, UserDao userDao) {
+    public MenuSystem(ReportGenerator reportGenerator, Scanner scanner, UserDao userDao) {
+        this.reportGenerator = reportGenerator;
         this.scanner = scanner;
         this.userDao = userDao;
-    }
+    }    
     
     /**
      * Display Main Menu
@@ -163,7 +166,9 @@ public class MenuSystem {
             
             switch (choice) {
                 case 1:
-                    System.out.println("Course Report...");
+                    System.out.print("Enter Course ID for the report: ");
+                    int courseId = getIntInput();
+                    reportGenerator.generateCourseReport(courseId);
                     break;
                 case 2:
                     System.out.println("Student Report...");
@@ -176,7 +181,7 @@ public class MenuSystem {
                     System.out.println("Logging out...");
                     break;
                 default:
-                    System.out.println("Invalid choice. Please try again.");
+                    System.out.println("!!!Invalid choice!!!");
             }
         }
     }
