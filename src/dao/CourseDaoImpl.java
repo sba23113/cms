@@ -41,7 +41,7 @@ public class CourseDaoImpl implements CourseDao {
                 course = new Course(id, name); // create new Course object
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // If an exception is caught print the error message to the console. 
+            System.out.println(e);
         }
 
         return course; //  Return Course object

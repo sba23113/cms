@@ -29,7 +29,7 @@ public class StudentDaoImpl implements StudentDao {
      */
     @Override // method is overriding a StudentDao interface method
     public Student getStudentById(int studentId) {
-        String sql = "SELECT * FROM Students WHERE StudentID = ?"; //  SQL query to select all columns from the Students table where the StudentID column matches the requested value
+        String sql = "SELECT * FROM Students WHERE StudentID = ?"; // SQL query to select all columns from the Students table where the StudentID column matches the requested value
         Student student = null; // Initialize Student object to null so that null is returned if matching Student is not found
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) { // PreparedStatement to prevent SQL injection attacks wrapped in try-with-resources to prevent resouce leaks
