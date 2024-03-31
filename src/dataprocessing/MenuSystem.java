@@ -190,6 +190,30 @@ public class MenuSystem {
         }
     }
     
+    public void showLecturerMenu() {
+        boolean lecturerLoggedIn = true;
+        while (lecturerLoggedIn) {
+            System.out.println("\n******** Lecturer Menu ********");
+            System.out.println("1. Generate My Lecturer Report");
+            System.out.println("0. Logout");
+
+            int choice = getIntInput();
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter Lecturer's ID for the report: ");
+                    int lecturerId = getIntInput();
+                    reportGenerator.generateLecturerReport(lecturerId);
+                    break;
+                case 0:
+                    lecturerLoggedIn = false;
+                    System.out.println("Logging out...");
+                    break;
+                default:
+                    System.out.println("!!!Invalid choice!!!");
+            }
+        }
+    }
+    
     /**
      * Insert new user into database
      */
