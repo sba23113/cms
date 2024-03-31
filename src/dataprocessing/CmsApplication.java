@@ -4,9 +4,12 @@
  */
 package dataprocessing;
 
+import dao.CourseDaoImpl;
 import dao.EnrollmentDaoImpl;
+import dao.GradeDaoImpl;
 import dao.LecturerDaoImpl;
 import dao.ModuleDaoImpl;
+import dao.StudentDaoImpl;
 import dao.UserDaoImpl;
 
 import databaseintegration.DBConnector;
@@ -33,14 +36,17 @@ public class CmsApplication {
        Scanner scanner = new Scanner(System.in);
        
        try (Connection conn = DBConnector.connect()) {
-           EnrollmentDaoImpl enrollmentDao = new EnrollmentDaoImpl(conn);  
-           LecturerDaoImpl lecturerDao = new LecturerDaoImpl(conn); 
+            CourseDaoImpl courseDao = new CourseDaoImpl(conn);  
+            EnrollmentDaoImpl enrollmentDao = new EnrollmentDaoImpl(conn);  
+            GradeDaoImpl gradeDao = new GradeDaoImpl(conn);  
+            LecturerDaoImpl lecturerDao = new LecturerDaoImpl(conn); 
             ModuleDaoImpl moduleDao = new ModuleDaoImpl(conn); 
+            StudentDaoImpl studentDao = new StudentDaoImpl(conn);  
             
             UserDaoImpl userDao = new UserDaoImpl(conn);            
 
-            ReportGenerator reportGenerator = new ReportGenerator(enrollmentDao, lecturerDao, moduleDao);
-            reportGenerator.generateLecturerReport(2);
+            ReportGenerator reportGenerator = new ReportGenerator(courseDao, enrollmentDao, gradeDao, lecturerDao, moduleDao, studentDao);
+            reportGenerator.generateStudentReport(74);
                     
             MenuSystem menuSystem = new MenuSystem(scanner, userDao);
             menuSystem.displayMainMenu();
